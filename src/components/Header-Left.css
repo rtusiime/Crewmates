@@ -1,0 +1,16 @@
+.left-header a, .left-header a:visited, .left-header a:hover, .left-header a:active {
+    color: white; /* Set link color to white */
+    text-decoration: none; /* Remove underline */
+}
+
+.left-header img.icon-class {
+    margin-right: 10px;
+}
+
+.icon-class {
+    height: 100px;
+}
+
+.left-header h1 {
+    margin-top: 0;
+}

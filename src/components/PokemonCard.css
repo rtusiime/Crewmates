@@ -1,0 +1,80 @@
+/* .Card {
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(153, 153, 153, 0.497);
+  border-radius: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-right: 10px;
+  margin-bottom: 25px;
+  width: 400px;
+  text-align: center;
+}
+
+.moreButton {
+  width: 30px;
+  float:right;
+
+}
+.moreButton:hover {
+  cursor: pointer;
+} */
+
+/* ChatGPT */
+
+.PokemonCard {
+  background: white; /* Adjust the background as needed */
+  border: 1px solid #e0e0e0; /* Light grey border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Center-align items for a neat look */
+  gap: 8px; /* Spacing between elements */
+}
+
+.moreButton {
+  align-self: flex-end; /* Position the edit button to the right */
+  cursor: pointer; /* Change cursor on hover */
+}
+
+.sprite {
+  width: 120px; /* Adjust size as necessary */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.title, .sprite-number, .pokemon-type, .type, .role, .description {
+  text-align: center; /* Center-align text */
+  margin: 4px 0; /* Spacing for text */
+  color: grey;
+}
+
+/* Style the Pokémon types to look like the image */
+.pokemon-type, .type {
+  display: inline-block; /* Inline-block for line-like layout */
+  padding: 2px 6px;
+  margin: 0 4px;
+  border: 1px solid #ddd; /* Border color as per your design */
+  border-radius: 4px; /* Rounded corners for type tags */
+  background: #f4f4f4; /* Light background for type tags */
+  color: #333; /* Text color for types */
+  font-size: 0.75rem; /* Smaller font size for type tags */
+}
+
+.role {
+  background: #e8e8e8; /* Different background for role */
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: #555; /* Slightly darker text for role */
+  font-size: 0.75rem;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: #666;
+  padding: 0 12px; /* Padding on sides of description */
+}
+
+.card-link {
+  text-decoration: dotted;
+}

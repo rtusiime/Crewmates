@@ -1,42 +1,72 @@
+/* Root and General Layout */
 #root {
   max-width: 1280px;
-  margin: 0 auto;
+  margin: auto;
   padding: 2rem;
   text-align: center;
+  color: #ffffff; /* Ensuring text is readable on dark background */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App main {
+  margin-left: 260px; /* Slight adjustment to ensure a seamless look */
+  padding: 20px;
+  color: #212121; /* Dark text color for contrast against card background */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dashboard {
+  display: grid;
+  margin-left: 25%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.about {
+  display: grid;
+  margin-left: 25%;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
 }
 
-.card {
-  padding: 2em;
+.summary {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 14px 14px rgba(0, 0, 0, 0.55);
 }
 
-.read-the-docs {
-  color: #888;
+.distribution {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.right-data {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border-radius: 15px;
+  color: white;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.num-crew {
+  font-family: 'SF Pro Display', sans-serif;
+  font-size: 5em;
+  line-height: 41px;
+  font-weight: 400;
+  letter-spacing: 0.374px;
+  text-shadow: 0px 7px 7px rgba(0, 0, 0, 0.3);
+  margin-bottom: 25px;
+}
+
+
+.summary button {
+  background-color: #f50057;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
 }
