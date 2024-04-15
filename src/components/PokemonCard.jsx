@@ -7,12 +7,19 @@ import more from '../assets/more.png';
 const PokemonCard = ({ name, url, role }) => {
   const [pokemonDetails, setPokemonDetails] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   // Function to handle mouse enter
   const handleMouseEnter = () => setIsHovering(true);
 
   // Function to handle mouse leave
   const handleMouseLeave = () => setIsHovering(false);
+
+  // Function to handle click on the more button
+  const handleMoreClick = (event) => {
+    event.preventDefault();
+    setShowMenu(!showMenu); // Toggle the visibility of the menu
+  };
 
   const getCardStyle = () => {
     if (!isHovering) return {};
@@ -24,7 +31,7 @@ const PokemonCard = ({ name, url, role }) => {
       case 'attacker':
         return { backgroundColor: 'rgba(255, 0, 0, 0.29)' }; // red with 29% opacity
       default:
-        return {};
+        return { backgroundColor: 'rgba(25, 25, 25, 0.1)' };
     }
   };
 
@@ -68,31 +75,41 @@ const PokemonCard = ({ name, url, role }) => {
 
 
   return (
-    <Link to={`/pokemon/${pokemonDetails.id}`} className='card-link'>
-      <div className="PokemonCard"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={getCardStyle()}>
+    <div className="PokemonCard"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={getCardStyle()}>
+      <Link to={`/pokemon/${pokemonDetails.id}`} className='card-link'>
         <img
           className="sprite"
           src={pokemonDetails.sprites.front_default}
           alt={name}
         />
-        <div className="pokemon-info">
-          <h2 className="title">{name}</h2>
-          <h3 className="sprite-number">#{pokemonDetails.id}</h3>
-        </div>
-        <div className="pokemon-types">
-          {pokemonDetails.types.map((typeInfo, index) => (
-            <span key={index} className="pokemon-type" style={{ background: typeColorMapping[typeInfo.type.name.toLowerCase()] }}>
-              {typeInfo.type.name}
-            </span>
-          ))}
-        </div>
-        <img className="moreButton" alt="edit button" src={more} />
-        {/* <Link state={props} to={'edit/' + props.id}><img className="moreButton" alt="edit button" src={more} /></Link> */}
+      </Link>
+      <div className="pokemon-info">
+        <h2 className="title">{name}</h2>
+        <h3 className="sprite-number">#{pokemonDetails.id}</h3>
       </div>
-    </Link>
+      <div className="pokemon-types">
+        {pokemonDetails.types.map((typeInfo, index) => (
+          <span key={index} className="pokemon-type" style={{ background: typeColorMapping[typeInfo.type.name.toLowerCase()] }}>
+            {typeInfo.type.name}
+          </span>
+        ))}
+      </div>
+      <img className="moreButton" alt="edit button" src={more} onClick={handleMoreClick} />
+      {/* Conditional rendering of the context menu */}
+      {showMenu && (
+        <div className="context-menu">
+          <ul>
+            <Link to={`/pokemon/edit/${pokemonDetails.id}`} className='card-link'>
+              <li onClick={() => console.log('Edit')}>Edit</li>
+            </Link>
+            <li className='delete-context-menu-item' onClick={() => console.log('Delete')}>Delete</li>
+          </ul>
+        </div>
+      )}
+    </div>
   );
 };
 

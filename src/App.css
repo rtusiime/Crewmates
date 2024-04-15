@@ -71,12 +71,12 @@ a,
 
 .button-tertiary {
   color: #ffffff;
-  background-color: rgb(60, 60, 61);
-  border: none;
   padding: 5px 10px;
   border-radius: 5px;
+  border: 2px solid grey;
+  background-color: #3c3c3d;
 }
-
+/* 545456 */
 .error,
 .warning {
   color: #ff1f1f;

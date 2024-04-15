@@ -31,6 +31,7 @@
 
 
 .PokemonCard {
+  position: relative;
   display: flex;;
   height: 100px; 
   background: white;
@@ -128,6 +129,42 @@
 }
 
 .moreButton {
+  position: absolute;
+  top:8px;
+  right:8px;
+  cursor: pointer;
   width: 30px;
   float:right;
+  z-index:10;
+}
+
+.context-menu {
+  position: absolute;
+  top: 40px; /* Adjust this value to move the menu below the more button */
+  right: 10px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 100; /* Ensure it sits above other elements */
+}
+
+.context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.context-menu li:hover {
+  background-color: #f2f2f2;
+}
+
+.context-menu .delete-context-menu-item:hover {
+  background-color: #ff1f1f;
+  color: white;
 }

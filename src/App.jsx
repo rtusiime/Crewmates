@@ -10,16 +10,64 @@ import SearchContext from './context/SearchContext';
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemons, setPokemons] = useState([]);
-  const { searchTerm, setSearchTerm } = useContext(SearchContext); // Use the context
+  const { searchTerm } = useContext(SearchContext); // Use the context
   const [pokemonsToDisplay, setPokemonsToDisplay] = useState('all');
-  
+  const [filteredPokemonData, setFilteredPokemonData] = useState([]);
+  const [activeButton, setActiveButton] = useState('all');
+
   const roleData = [
     { role: 'Strategist', percentage: 36 },
     { role: 'Guardian', percentage: 22 },
     { role: 'Supporter', percentage: 42 }
   ];
 
-  
+  useEffect(() => {
+    const fetchPokemons = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=15');
+        const fetchedPokemons = response.data.results;
+        setPokemons(fetchedPokemons);
+      } catch (error) {
+        console.error('Error fetching Pokemon data: ', error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchPokemons();
+  }, []);
+
+  useEffect(() => {
+    setFilteredPokemonData(getFilteredPokemonData());
+    // Moved inside this useEffect so we are sure we are logging the updated state
+    console.log('Filtered Pokemon data:', filteredPokemonData);
+    console.log('Pokemon data:', pokemons);
+  }, [pokemons, pokemonsToDisplay, searchTerm]);
+
+  const getFilteredPokemonData = () => {
+    let filteredByType = pokemons;
+    console.log('oogabooga:', pokemonsToDisplay);
+
+    // Filter by type if it's not set to 'all'
+    if (pokemonsToDisplay !== 'all') {
+      filteredByType = pokemons.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(pokemonsToDisplay)
+      );
+    }
+    else {
+      filteredByType = pokemons;
+    }
+    console.log('searchTerm:', searchTerm);
+    // Further filter by search term if it is provided
+    if (searchTerm) {
+      return filteredByType.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    return filteredByType;
+  };
+
+
   const chartData = {
     labels: roleData.map(item => item.role),
     datasets: [
@@ -55,27 +103,6 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchPokemons = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=6');
-        setPokemons(response.data.results);
-        console.log('Pokemon data:', pokemons);
-      } catch (error) {
-        console.error('Error fetching Pokemon data: ', error);
-      }
-      setIsLoading(false);
-    };
-
-    fetchPokemons();
-  }, []);
-
-
-
-  const filteredPokemonData = searchTerm
-    ? pokemons.filter(data => data.name.toLowerCase().includes(searchTerm.toLowerCase()))
-    : pokemons;
 
   return (
     <div className='App'>
@@ -91,10 +118,61 @@ const App = () => {
           </div>
 
           <div className="pokemon-dashboard-list">
-            <div className='pokemon-list-filters'>
-              <button className='button-tertiary' onClick={setSearchTerm()}>Brawler</button>
-              <button className='button-tertiary'>Defender</button>
-              <button className='button-tertiary'>Supporter</button>
+              <div className='pokemon-list-filters'>
+                
+              <button className='button-tertiary'
+                style={activeButton === 'brawler' ? {
+                  backgroundColor: '#545456',
+                  boxShadow: '0 1px #666',
+                  transform: 'translateY(2px)'
+                } : null
+                }
+                onClick={() => {
+                  setPokemonsToDisplay('b');
+                  setActiveButton('brawler');
+                  console.log('brawler button clicked');
+                }}>Brawler</button>
+
+              <button className='button-tertiary'
+                style={activeButton === 'defender' ? {
+                  backgroundColor: '#545456',
+                  boxShadow: '0 1px #666',
+                  transform: 'translateY(2px)'
+                } : null
+                }
+                onClick={() => {
+                  setPokemonsToDisplay('c');
+                  setActiveButton('defender');
+                  console.log('Defender button clicked');
+                }}>Defender</button>
+
+              <button
+                className='button-tertiary'
+                style={activeButton === 'supporter' ? {
+                  backgroundColor: '#545456',
+                  boxShadow: '0 1px #666',
+                  transform: 'translateY(2px)'
+                } : null
+                }
+                onClick={() => {
+                  setPokemonsToDisplay('s');
+                  setActiveButton('supporter');
+                  console.log('Supporter button clicked');
+                }}>Supporter</button>
+
+              <button
+                className='button-tertiary'
+                style={activeButton === 'all' ? {
+                  backgroundColor: '#545456',
+                  boxShadow: '0 1px #666',
+                  transform: 'translateY(2px)'
+                } : null
+                }
+                onClick={() => {
+                  setPokemonsToDisplay('all');
+                  setActiveButton('all');
+                  console.log('All button clicked');
+                }}>All</button>
             </div>
             <PokemonList list={filteredPokemonData} />
           </div>
