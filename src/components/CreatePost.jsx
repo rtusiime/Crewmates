@@ -3,12 +3,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import PokemonList from './PokemonList';
 import SearchContext from '../context/SearchContext';
-// import supabase from '../client';
+import supabase from '../client';
 const roles = ["Strategist", "Guardian", "Supporter", "Brawler", "Defender"];
 
 const CreatePost = () => {
 
-    const [post, setPost] = useState({ name: "", role: "" });
+    const [post, setPost] = useState({ name: "", role: "Guardian", url: ""});
     const [pokemons, setPokemons] = useState([]);
     const { searchTerm } = useContext(SearchContext); // Use the context
     const [filteredPokemonData, setFilteredPokemonData] = useState([]);
@@ -26,6 +26,52 @@ const CreatePost = () => {
 
         fetchPokemons();
     }, []);
+
+    const createPost = async (event) => {
+        event.preventDefault();
+    
+        // Assuming `post.name` is the name of the Pokémon you are trying to insert.
+        const pokemonData = filteredPokemonData.find(pokemon => pokemon.name === post.name);
+        if (!pokemonData) {
+            alert('Please select a valid pokemon');
+            return;
+        }
+    
+        // Checking if the Pokémon already exists in the database
+        const { data: existingPokemon, error: error_1 } = await supabase
+            .from('Pokemons')
+            .select('*') // Fetch all columns
+            .eq('name', post.name) // Filter to find a row where the 'name' column matches `post.name`
+            .single(); // Assumes that 'name' is a unique identifier, and you expect at most one row
+    
+        if (error_1) {
+            console.error('Error fetching existing Pokémon:', error_1);
+            return;
+        }
+    
+        if (existingPokemon) {
+            alert('You already have this Pokemon! Please select another one');
+            return;
+        }
+    
+        // If Pokémon does not exist, proceed to insert it
+        const { data, error: error_2 } = await supabase
+            .from('Pokemons')
+            .insert([
+                { name: post.name, url: post.url, role: post.role }
+            ]);
+    
+        if (error_2) {
+            console.error('Error inserting new Pokémon:', error_2);
+
+        } else {
+            console.log('Post created successfully:', data);
+            window.location = '/'; // Redirect if needed
+        }
+    }
+    
+
+
 
     useEffect(() => {
         setFilteredPokemonData(getFilteredPokemonData());
@@ -47,57 +93,6 @@ const CreatePost = () => {
         return filteredByType;
     };
 
-    // const createPost = async (event) => {
-    //     // console.log('calling create post');
-    //     event.preventDefault();
-    //     const descr = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.';
-    //     const posts = [
-    //         {
-    //             'title': 'Cartwheel in Chelsea 🤸🏽‍♀️',
-    //             'author': 'Harvey Milian',
-    //             'description': descr
-    //         },
-    //         {
-    //             'title': 'Love Lock in Paris 🔒',
-    //             'author': 'Beauford Delaney',
-    //             'description': descr
-    //         },
-    //         {
-    //             'title': 'Wear Pink on Fridays 🎀',
-    //             'author': 'Onika Tonya',
-    //             'description': descr
-    //         },
-    //         {
-    //             'title': 'Adopt a Dog 🐶',
-    //             'author': 'Denise Michelle',
-    //             'description': descr
-    //         },
-    //     ]
-    //     const { data, error } = await supabase
-    //         .from('Posts')
-    //         .insert(
-    //             { title: post.title, author: post.author, description: post.description })
-    //         .select();
-    //     if (error) {
-    //         console.log(error);
-    //     }
-    //     else {
-    //         console.log('Post created successfully ', data);
-    //     }
-    //     console.log(data)
-    //     window.location = '/';
-    // }
-
-    const createPost = (event) => {
-        event.preventDefault();
-       const pokemonData = filteredPokemonData.find(pokemon => pokemon.name === post.name);
-        if (!pokemonData) {
-            alert('Please select a valid pokemon');
-            return;
-        }
-        console.log('Post created successfully ', post);
-        window.location = '/';
-    }
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -115,7 +110,7 @@ const CreatePost = () => {
                 <form onSubmit={createPost} >
                     <div className='form-input'>
                         <label htmlFor="name">Name: </label> <br />
-                        <input type="text" id="name" name="name" onChange={handleChange} />
+                        <input type="text" id="name" value={post.name} name="name" onChange={handleChange} />
                     </div>
 
                     <div className='form-input'>
@@ -130,7 +125,7 @@ const CreatePost = () => {
                 </form>
             </div>
             <div className="pokemon-dashboard-list">
-                <PokemonList list={filteredPokemonData} />
+                <PokemonList list={filteredPokemonData} parent={'CreatePost'} setPost={setPost} post={post} />
             </div>
         </div>
     )

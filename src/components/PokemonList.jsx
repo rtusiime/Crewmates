@@ -3,6 +3,7 @@ import PokemonCard from './PokemonCard';
 import pokeball from '../assets/pokeball.png';
 
 const PokemonList = (props) => {
+  console.log('PokemonCard props__:', props);
   const [pokemons, setPokemons] = useState([]);
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const PokemonList = (props) => {
 
   return (
     <div className={pokemons.length < 1 ? 'empty-state' : 'pokemon-list-container'}>
-      {pokemons.length < 1  ?
+      {pokemons.length < 1 ?
         (
           <div>
             <h2>Wow! Such Empty!</h2>
@@ -24,7 +25,15 @@ const PokemonList = (props) => {
           </div>
         )
         : (pokemons.map((pokemon, index) => (
-          <PokemonCard key={index} name={pokemon.name} url={pokemon.url} deletePokemon={() => deletePokemon(pokemon.name)} />
+          <PokemonCard
+            key={index}
+            name={pokemon.name}
+            url={pokemon.url}
+            setPost={props.setPost}
+            post={props.post}
+            deletePokemon={() => deletePokemon(pokemon.name)}
+            parent={props.parent}
+          />
         )))}
     </div>
   );

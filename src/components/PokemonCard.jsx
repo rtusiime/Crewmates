@@ -4,7 +4,8 @@ import './PokemonCard.css';
 import { Link } from 'react-router-dom';
 import more from '../assets/more.png';
 
-const PokemonCard = ({ name, url, role, deletePokemon }) => {
+const PokemonCard = ({ name, url, role, deletePokemon, parent, setPost, post }) => {
+  console.log('Postyyyy:', post);
   const [pokemonDetails, setPokemonDetails] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -20,6 +21,19 @@ const PokemonCard = ({ name, url, role, deletePokemon }) => {
     event.preventDefault();
     setShowMenu(!showMenu); // Toggle the visibility of the menu
   };
+
+  // Function to handle click on the card button
+  const handleCardClick = (event) => {
+    event.preventDefault();
+    setPost((prev) => ({
+      ...prev,
+      'name': name,
+      'role': role ? role : prev.role,
+      'url': url,
+    }))
+    console.log('Post:', post);
+  };
+
 
   const getCardStyle = () => {
     if (!isHovering) return {};
@@ -78,6 +92,7 @@ const PokemonCard = ({ name, url, role, deletePokemon }) => {
     <div className="PokemonCard"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={parent === 'CreatePost' ? handleCardClick : null}
       style={getCardStyle()}>
       <Link to={`/pokemon/${pokemonDetails.id}`} className='card-link'>
         <img
@@ -97,12 +112,12 @@ const PokemonCard = ({ name, url, role, deletePokemon }) => {
           </span>
         ))}
       </div>
-      <img className="moreButton" alt="edit button" src={more} onClick={handleMoreClick} />
+      {parent !== 'CreatePost' && <img className="moreButton" alt="edit button" src={more} onClick={handleMoreClick} />}
       {/* Conditional rendering of the context menu */}
       {showMenu && (
         <div className="context-menu">
           <ul>
-            <Link to={`/pokemon/edit/${pokemonDetails.id}`} className='card-link'>
+            <Link to={`/edit/${pokemonDetails.name}`} className='card-link'>
               <li onClick={() => console.log('Edit')}>Edit</li>
             </Link>
             <li className='delete-context-menu-item' onClick={() => {

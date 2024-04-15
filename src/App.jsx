@@ -21,12 +21,15 @@ const App = () => {
     { role: 'Supporter', percentage: 42 }
   ];
 
+
   useEffect(() => {
     const fetchPokemons = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=15');
-        const fetchedPokemons = response.data.results;
+        const { data: fetchedPokemons, error: error_1 } = await supabase
+          .from('Pokemons')
+          .select('*')
+          .order('name');
         setPokemons(fetchedPokemons);
       } catch (error) {
         console.error('Error fetching Pokemon data: ', error);

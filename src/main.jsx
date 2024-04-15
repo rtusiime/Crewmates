@@ -22,8 +22,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<Layout />}>
           <Route index={true} element={<App />} />
           <Route path="/about" element={<About />} />
-          <Route path="/pokemon/:id" element={<DetailView />} />
-          <Route path="/pokemon/edit/:id" element={<DetailView />} />
+          <Route path="edit/:name" element={<EditPost />} />
+          <Route path="pokemon/:name" element={<DetailView />} />
           <Route path="/create" element={<CreatePost />} />
         </Route>
         <Route path="*" element={<NotFound />} />
