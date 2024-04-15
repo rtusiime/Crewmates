@@ -2,71 +2,164 @@
 #root {
   max-width: 1280px;
   margin: auto;
+  margin-right: 30%;
   padding: 2rem;
   text-align: center;
-  color: #ffffff; /* Ensuring text is readable on dark background */
+  background-color: rgb(225, 234, 241);
+  /* Ensures consistent app background */
+}
+
+.App {
+  display: flex;
+  padding: 20px;
+  background-color: rgb(225, 234, 241);
 }
 
 .App main {
-  margin-left: 260px; /* Slight adjustment to ensure a seamless look */
+  margin-left: 260px;
   padding: 20px;
-  color: #212121; /* Dark text color for contrast against card background */
+  background-color: rgb(225, 234, 241);
 }
 
-.dashboard {
-  display: grid;
-  margin-left: 25%;
+/* Text colors and styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #363b81;
+  /* Dark blue for headers */
 }
 
+p,
+li,
+div,
+span {
+  color: #505565;
+  /* Softer gray for body text */
+}
+
+/* Layout adjustments */
+.dashboard,
 .about {
-  display: grid;
-  margin-left: 25%;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgb(225, 234, 241);
   border-radius: 20px;
   padding: 20px;
 }
 
-.summary {
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  border-radius: 15px;
-  color: white;
-  box-shadow: 0 14px 14px rgba(0, 0, 0, 0.55);
+.dashboard {
+  margin-left: 25%;
+
+}
+
+/* Interactive elements */
+a,
+.button-primary {
+  color: #ffffff;
+  background-color: #fbd743;
+  /* Bright yellow for primary buttons */
+  border-radius: 5px;
+}
+
+
+.button-secondary {
+  color: #ffffff;
+  background-color: #5db9ff;
+  /* Sky blue for secondary buttons */
+}
+
+.button-tertiary {
+  color: #ffffff;
+  background-color: rgb(60, 60, 61);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.error,
+.warning {
+  color: #ff1f1f;
+  /* Bright red for errors and warnings */
 }
 
 .distribution {
-  max-width: 200px;
-  max-height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 20px;
+  padding: 20px;
 }
 
-.right-data {
+.distribution h1 {
+  margin-left: 10px;
+  font-family: 'Pokemon Solid', sans-serif;
+  font-size: 4rem;
+  color: rgb(60, 60, 61);
+}
+
+
+.pokemon-dashboard-list {
   display: flex;
   flex-direction: column;
-  margin: 10px;
-  border-radius: 15px;
-  color: white;
-  align-items: center;
+  background-color: #f8f9fa;
+  ;
+  width: max-content;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.pokemon-list-filters {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: end;
+}
+
+.pokemon-list-filters button {
+  margin-right: 5px;
+}
+
+.pokemon-list-filters button:active {
+  background-color: grey;
+
+}
+
+.pokemon-list-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* Creates two columns */
+  gap: 10px;
+  /* Sets the gap between grid items */
+}
+
+.empty-state {
+  display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.5rem;
 
 }
 
-.num-crew {
-  font-family: 'SF Pro Display', sans-serif;
-  font-size: 5em;
-  line-height: 41px;
-  font-weight: 400;
-  letter-spacing: 0.374px;
-  text-shadow: 0px 7px 7px rgba(0, 0, 0, 0.3);
-  margin-bottom: 25px;
+.empty-state img {
+  margin: 50px;
+  /* Set the image to be semi-transparent */
+  opacity: 0.45;
+  /* 50% transparent, adjust the value as needed */
+  /* Set the image to grayscale */
+  filter: grayscale(75%);
 }
 
+.empty-state h2 {
+  font-family: 'Pokemon Classic';
+  color: rgb(60, 60, 61, 0.6);
+}
 
-.summary button {
-  background-color: #f50057;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
+.empty-state p {
+  font-family: 'Pokemon Classic';
+  font-size: 0.6em;
+  color: rgb(60, 60, 61, 0.6);
 }

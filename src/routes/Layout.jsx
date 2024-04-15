@@ -1,17 +1,16 @@
-import React from 'react';
-import './Layout.css';
+import {React, useState} from 'react';
 import { Outlet } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import RightHeader from '../components/Header-Right';
+import SearchContext from '../context/SearchContext'; // Import the context
 const Layout = () => {
+  const [searchTerm, setSearchTerm] = useState('');
   return (
-    <div className="app-layout">
+    <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
       <RightHeader />
       <NavBar />
-      <div className="content">
-        <Outlet />
-      </div>
-    </div>
+      <Outlet />
+    </SearchContext.Provider>
   );
 };
 

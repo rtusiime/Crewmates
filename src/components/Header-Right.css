@@ -3,16 +3,14 @@
     top: 0; /* Adjust if you want to move it down */
     right: 0; /* Adjust if you want to move it left */
     padding: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 1000;
     display: flex;
-
 }
 
 .search-bar {
     justify-content: center;
     align-items: center;
-    background-color: #343a40;
+    background-color: #f8f9fa;
     padding: 10px;
     border-radius: 20px;
     display: flex;
@@ -28,7 +26,6 @@
 }
 .search-bar input {
     border:none;
-    color: white;
     width: 200px;
     background-color: transparent;
     padding: 5px;

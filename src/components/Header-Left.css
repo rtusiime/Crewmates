@@ -1,7 +1,26 @@
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
+
 .left-header a, .left-header a:visited, .left-header a:hover, .left-header a:active {
-    color: white; /* Set link color to white */
     text-decoration: none; /* Remove underline */
+    font-family: 'Pokemon Solid', sans-serif;
+    background-color: transparent;
 }
+
+.left-header h1 {
+    color: #fbd743;  /* Yellow text color */
+    letter-spacing: 1px;  /* Adds space between characters */
+    text-shadow: 
+        -2px -1px 0 black,  /* Top-left shadow */
+         2px -1px 0 black,  /* Top-right shadow */
+        -1px  1px 0 black,  /* Bottom-left shadow */
+         1px  1px 0 black,  /* Bottom-right shadow */
+        -2px -2px 0 black,  /* Top-left shadow */
+         2px -2px 0 black,  /* Top-right shadow */
+        -2px  2px 0 black,  /* Bottom-left shadow */
+         2px  2px 0 black;  /* Bottom-right shadow */
+}
+
+
 
 .left-header img.icon-class {
     margin-right: 10px;

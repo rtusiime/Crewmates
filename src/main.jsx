@@ -8,13 +8,10 @@ import NotFound from './routes/NotFound'; // Assuming you have a NotFound Compon
 import './index.css';
 import DetailView from './routes/DetailView';
 import Chart from 'chart.js/auto';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 import centerTextPlugin from './plugins/centerTextPlugin'; // Import the custom plugin
 
 // If you're also using the datalabels plugin, ensure it is registered as well
-Chart.register(ChartDataLabels);
-Chart.register(centerTextPlugin); // Register the plugin
-Chart.register(ChartDataLabels, centerTextPlugin); // Register the plugin here
+Chart.register(centerTextPlugin); // Register the plugin here
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
