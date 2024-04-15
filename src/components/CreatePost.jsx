@@ -4,7 +4,7 @@ import axios from 'axios';
 import PokemonList from './PokemonList';
 import SearchContext from '../context/SearchContext';
 import supabase from '../client';
-const roles = ["Strategist", "Guardian", "Supporter", "Brawler", "Defender"];
+const roles = [ "strategist", "defender", "attacker",];
 
 const CreatePost = () => {
 
@@ -16,7 +16,7 @@ const CreatePost = () => {
     useEffect(() => {
         const fetchPokemons = async () => {
             try {
-                const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=3');
+                const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100');
                 const fetchedPokemons = response.data.results;
                 setPokemons(fetchedPokemons);
             } catch (error) {
@@ -26,7 +26,6 @@ const CreatePost = () => {
 
         fetchPokemons();
     }, []);
-
     const createPost = async (event) => {
         event.preventDefault();
     
@@ -37,38 +36,43 @@ const CreatePost = () => {
             return;
         }
     
-        // Checking if the Pokémon already exists in the database
-        const { data: existingPokemon, error: error_1 } = await supabase
-            .from('Pokemons')
-            .select('*') // Fetch all columns
-            .eq('name', post.name) // Filter to find a row where the 'name' column matches `post.name`
-            .single(); // Assumes that 'name' is a unique identifier, and you expect at most one row
+        try {
+            // Attempt to find if the Pokémon already exists in the database
+            const { data: existingPokemon, error: error_1 } = await supabase
+                .from('Pokemons')
+                .select('*') // Fetch all columns
+                .eq('name', post.name) // Filter to find a row where the 'name' column matches `post.name`
+                .single(); // Assumes that 'name' is a unique identifier, and you expect at most one row
     
-        if (error_1) {
-            console.error('Error fetching existing Pokémon:', error_1);
-            return;
+            if (error_1) {
+                // Handle cases where the query itself fails unexpectedly
+                throw error_1;
+            }
+    
+            if (existingPokemon) {
+                alert('You already have this Pokemon! Please select another one');
+                return;
+            }
+        } catch (error) {
+            // This block will catch no result found as an error because `.single()` throws if no row is found
+            console.log('No existing Pokémon found, proceeding to add:', error.message);
         }
     
-        if (existingPokemon) {
-            alert('You already have this Pokemon! Please select another one');
-            return;
-        }
-    
-        // If Pokémon does not exist, proceed to insert it
+        // If Pokémon does not exist or database was initially empty, proceed to insert it
         const { data, error: error_2 } = await supabase
             .from('Pokemons')
             .insert([
-                { name: post.name, url: post.url, role: post.role }
+                { name: pokemonData.name, url: pokemonData.url, role: post.role }
             ]);
     
         if (error_2) {
             console.error('Error inserting new Pokémon:', error_2);
-
         } else {
             console.log('Post created successfully:', data);
             window.location = '/'; // Redirect if needed
         }
-    }
+    };
+    
     
 
 

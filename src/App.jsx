@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import './App.css';
 import PokemonList from './components/PokemonList';
 import { Doughnut } from 'react-chartjs-2';
 import SearchContext from './context/SearchContext';
+import supabase from './client';
 
 
 
@@ -14,11 +14,14 @@ const App = () => {
   const [pokemonsToDisplay, setPokemonsToDisplay] = useState('all');
   const [filteredPokemonData, setFilteredPokemonData] = useState([]);
   const [activeButton, setActiveButton] = useState('all');
+  const [numAttacker, setNumAttacker] = useState(0);
+  const [numDefender, setNumDefender] = useState(0);
+  const [numStrategist, setNumStrategist] = useState(0);
 
   const roleData = [
-    { role: 'Strategist', percentage: 36 },
-    { role: 'Guardian', percentage: 22 },
-    { role: 'Supporter', percentage: 42 }
+    { role: 'Attacker', percentage: numAttacker/(numAttacker+numDefender+numStrategist+1)*100 },
+    { role: 'Defender', percentage: numDefender/(numAttacker+numDefender+numStrategist+1)*100 },
+    { role: 'Strategist', percentage: numStrategist/(numAttacker+numDefender+numStrategist+1)*100 }
   ];
 
 
@@ -31,6 +34,7 @@ const App = () => {
           .select('*')
           .order('name');
         setPokemons(fetchedPokemons);
+        getRoleCount();
       } catch (error) {
         console.error('Error fetching Pokemon data: ', error);
       }
@@ -48,27 +52,54 @@ const App = () => {
   }, [pokemons, pokemonsToDisplay, searchTerm]);
 
   const getFilteredPokemonData = () => {
-    let filteredByType = pokemons;
+    let filtered = pokemons;
     console.log('oogabooga:', pokemonsToDisplay);
 
     // Filter by type if it's not set to 'all'
     if (pokemonsToDisplay !== 'all') {
-      filteredByType = pokemons.filter(pokemon =>
-        pokemon.name.toLowerCase().includes(pokemonsToDisplay)
+      filtered = pokemons.filter(pokemon =>
+        pokemon.role.toLowerCase().includes(pokemonsToDisplay)
       );
     }
     else {
-      filteredByType = pokemons;
+      filtered = pokemons;
     }
     console.log('searchTerm:', searchTerm);
     // Further filter by search term if it is provided
     if (searchTerm) {
-      return filteredByType.filter(pokemon =>
+      return filtered.filter(pokemon =>
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    console.log('filteredByType:', filteredByType);
-    return filteredByType;
+    console.log('filtered:', filtered);
+    return filtered;
+  };
+
+  const getRoleCount = () => {
+     console.log('getRoleCount:', pokemons);
+    let attackerCount = 0;
+    let defenderCount = 0;
+    let strategistCount = 0;
+
+    pokemons.forEach(pokemon => {
+      switch (pokemon.role) {
+        case 'attacker':
+          attackerCount++;
+          break;
+        case 'defender':
+          defenderCount++;
+          break;
+        case 'strategist':
+          strategistCount++;
+          break;
+        default:
+          break;
+      }
+    });
+
+    setNumAttacker(attackerCount);
+    setNumDefender(defenderCount);
+    setNumStrategist(strategistCount);
   };
 
 
@@ -118,24 +149,24 @@ const App = () => {
             <div className='doughnut'>
               <Doughnut data={chartData} options={options} />
             </div>
-            <h1>Pockemons</h1>
+            <h1>Pockemon</h1>
           </div>
 
           <div className="pokemon-dashboard-list">
               <div className='pokemon-list-filters'>
                 
               <button className='button-tertiary'
-                style={activeButton === 'brawler' ? {
+                style={activeButton === 'attacker' ? {
                   backgroundColor: '#545456',
                   boxShadow: '0 1px #666',
                   transform: 'translateY(2px)'
                 } : null
                 }
                 onClick={() => {
-                  setPokemonsToDisplay('b');
-                  setActiveButton('brawler');
-                  console.log('brawler button clicked');
-                }}>Brawler</button>
+                  setPokemonsToDisplay('attacker');
+                  setActiveButton('attacker');
+                  console.log('attacker button clicked');
+                }}>Attacker</button>
 
               <button className='button-tertiary'
                 style={activeButton === 'defender' ? {
@@ -145,24 +176,24 @@ const App = () => {
                 } : null
                 }
                 onClick={() => {
-                  setPokemonsToDisplay('c');
+                  setPokemonsToDisplay('defender');
                   setActiveButton('defender');
-                  console.log('Defender button clicked');
+                  console.log('defender button clicked');
                 }}>Defender</button>
 
               <button
                 className='button-tertiary'
-                style={activeButton === 'supporter' ? {
+                style={activeButton === 'strategist' ? {
                   backgroundColor: '#545456',
                   boxShadow: '0 1px #666',
                   transform: 'translateY(2px)'
                 } : null
                 }
                 onClick={() => {
-                  setPokemonsToDisplay('s');
-                  setActiveButton('supporter');
-                  console.log('Supporter button clicked');
-                }}>Supporter</button>
+                  setPokemonsToDisplay('strategist');
+                  setActiveButton('strategist');
+                  console.log('strategist button clicked');
+                }}>Strategist</button>
 
               <button
                 className='button-tertiary'
@@ -179,7 +210,8 @@ const App = () => {
                 }}>All</button>
               </div>
               {console.log('maamawo:', filteredPokemonData)}
-            <PokemonList list={filteredPokemonData} />
+              <PokemonList list={filteredPokemonData} />
+              {console.log('katilaba:', filteredPokemonData)}
           </div>
         </div>
       )}

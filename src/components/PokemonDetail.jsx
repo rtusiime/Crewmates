@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 import './PokemonDetail.css';
 
 const PokemonDetail = () => {
-  const { id } = useParams();
+  const { name } = useParams();
   const [pokemonData, setPokemonData] = useState(null);
 
   useEffect(() => {
     const fetchPokemonData = async () => {
       try {
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
         setPokemonData(response.data);
       } catch (error) {
         console.error('Error fetching Pokemon details:', error);

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import more from '../assets/more.png';
 
 const PokemonCard = ({ name, url, role, deletePokemon, parent, setPost, post }) => {
-  console.log('Postyyyy:', post);
+  // console.log('Postyyyy:', post);
   const [pokemonDetails, setPokemonDetails] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -38,12 +38,12 @@ const PokemonCard = ({ name, url, role, deletePokemon, parent, setPost, post }) 
   const getCardStyle = () => {
     if (!isHovering) return {};
     switch (role) {
-      case 'guardian':
-        return { backgroundColor: 'rgba(93, 185, 255, 0.29)' }; // 5db9ff with 29% opacity
-      case 'supporter':
+      case 'attacker': 
+        return { backgroundColor: 'rgba(255, 0, 0, 0.29)' }; // 5db9ff with 29% opacity
+      case 'defender':
         return { backgroundColor: 'rgba(255, 255, 0, 0.29)' }; // yellow with 29% opacity
-      case 'attacker':
-        return { backgroundColor: 'rgba(255, 0, 0, 0.29)' }; // red with 29% opacity
+      case 'strategist':
+        return { backgroundColor: 'rgba(93, 185, 255, 0.29)' }; // red with 29% opacity
       default:
         return { backgroundColor: 'rgba(25, 25, 25, 0.1)' };
     }
@@ -94,7 +94,7 @@ const PokemonCard = ({ name, url, role, deletePokemon, parent, setPost, post }) 
       onMouseLeave={handleMouseLeave}
       onClick={parent === 'CreatePost' ? handleCardClick : null}
       style={getCardStyle()}>
-      <Link to={`/pokemon/${pokemonDetails.id}`} className='card-link'>
+      <Link to={`/pokemon/${pokemonDetails.name}`} className='card-link'>
         <img
           className="sprite"
           src={pokemonDetails.sprites.front_default}
@@ -117,7 +117,7 @@ const PokemonCard = ({ name, url, role, deletePokemon, parent, setPost, post }) 
       {showMenu && (
         <div className="context-menu">
           <ul>
-            <Link to={`/edit/${pokemonDetails.name}`} className='card-link'>
+            <Link to={`/edit/${pokemonDetails.name}`} state={{role, url} } className='card-link'>
               <li onClick={() => console.log('Edit')}>Edit</li>
             </Link>
             <li className='delete-context-menu-item' onClick={() => {

@@ -56,3 +56,20 @@ input[type=submit]:hover {
     margin-top: 20px;
     margin-bottom: 50px;
 } */
+
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-buttons input[type=submit] {
+    width: 28%;
+    margin: 10px;
+}
+
+.create-page h2{
+font-family: 'Pokemon Classic', Courier, monospace;
+font-size: 2em;
+font-weight: 900;
+}

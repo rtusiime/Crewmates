@@ -1,75 +1,52 @@
-import './CreatePost.css'
+import './EditPost.css'
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
-import PokemonList from './PokemonList';
-import SearchContext from '../context/SearchContext';
 import supabase from '../client';
 import { useLocation, useParams } from "react-router-dom";
-const roles = ["Strategist", "Guardian", "Supporter", "Brawler", "Defender"];
-
+const roles = ["Strategist", "Attacker", "Defender"];
+import axios from 'axios';
 
 const EditPost = () => {
     const { name } = useParams();
+    console.log('Name:', name);
     const location = useLocation();
-    const role = location.role;
-    const url = location.url;
-    const [post, setPost] = useState({ name: name, role: role, url: url });
-    const [pokemons, setPokemons] = useState([]);
-    const { searchTerm } = useContext(SearchContext); // Use the context
-    const [filteredPokemonData, setFilteredPokemonData] = useState([]);
+    console.log('Location:', location);
+    const role = location.state.role;
+    const url = location.state.url;
+    const [post, setPost] = useState({ name: name, role: role });
+    const [imageUrl, setImageUrl] = useState('');
 
     useEffect(() => {
-        const fetchPokemons = async () => {
+        const fetchPokemonOfficialArtwork = async (url) => {
             try {
-                const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=3');
-                const fetchedPokemons = response.data.results;
-                setPokemons(fetchedPokemons);
+                const response = await axios.get(url);
+                const officialArtwork = response.data.sprites.other['official-artwork'].front_default;
+                console.log('Official Artwork URL:', officialArtwork);
+                setImageUrl(officialArtwork);
             } catch (error) {
-                console.error('Error fetching Pokemon data: ', error);
+                console.error('Failed to fetch Pokémon data:', error);
             }
-        };
+        }
+        fetchPokemonOfficialArtwork(url)
 
-        fetchPokemons();
     }, []);
+
+
+    // Example usage
 
 
     const updatePost = async (event) => {
         event.preventDefault();
 
-        // Assuming `post.name` is the name of the Pokémon you are trying to insert.
-        const pokemonData = filteredPokemonData.find(pokemon => pokemon.name === post.name);
-        if (!pokemonData) {
-            alert('Please select a valid pokemon');
-            return;
-        }
-
-        // Checking if the Pokémon already exists in the database
-        const { data: existingPokemon, error: error_1 } = await supabase
-            .from('Pokemons')
-            .select('*') // Fetch all columns
-            .eq('name', post.name) // Filter to find a row where the 'name' column matches `post.name`
-            .single(); // Assumes that 'name' is a unique identifier, and you expect at most one row
-
-        if (error_1) {
-            console.error('Error fetching existing Pokémon:', error_1);
-            return;
-        }
-
-        if (existingPokemon) {
-            alert('You already have this Pokemon! Please select another one');
-            return;
-        }
-
         // If Pokémon does not exist, proceed to insert it
-        const { data, error: error_2 } = await supabase
+        const { data, error } = await supabase
             .from('Pokemons')
-            .update([
-                { name: post.name, url: post.url, role: post.role }
-            ])
+            .update(
+                { role: post.role }  // Only updating the name field
+            )
             .eq('name', post.name); // Filter to find a row where the 'name' column matches `post.name`
 
-        if (error_2) {
-            console.error('Error inserting new Pokémon:', error_2);
+        if (error) {
+            console.error('Error updating Pokémon:', error);
 
         } else {
             console.log('Post created successfully:', data);
@@ -80,28 +57,6 @@ const EditPost = () => {
     const cancelSubmit = (event) => {
         window.location = '/';
     };
-
-
-    useEffect(() => {
-        setFilteredPokemonData(getFilteredPokemonData());
-        // Moved inside this useEffect so we are sure we are logging the updated state
-        // console.log('Filtered Pokemon data:', filteredPokemonData);
-        // console.log('Pokemon data:', pokemons);
-    }, [pokemons, searchTerm]);
-
-    const getFilteredPokemonData = () => {
-        let filteredByType = pokemons;
-        // console.log('searchTerm:', searchTerm);
-        // Further filter by search term if it is provided
-        if (searchTerm) {
-            return filteredByType.filter(pokemon =>
-                pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-        }
-        // console.log('filteredByType:', filteredByType);
-        return filteredByType;
-    };
-
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -114,14 +69,11 @@ const EditPost = () => {
 
     return (
         <div className='create-page'>
-            <h1>Choose your character</h1>
+            <h1>Update your character</h1>
+            <h2>{name}</h2>
+            <img src={imageUrl} alt={`picture of ${name}`} />
             <div className='create-form' >
                 <form onSubmit={updatePost} >
-                    <div className='form-input'>
-                        <label htmlFor="name">Name: </label> <br />
-                        <input type="text" id="name" value={post.name} name="name" onChange={handleChange} />
-                    </div>
-
                     <div className='form-input'>
                         <label htmlFor="role">Role:</label><br />
                         <select id="role" name="role" onChange={handleChange} value={post.role}>
@@ -130,12 +82,12 @@ const EditPost = () => {
                             ))}
                         </select>
                     </div>
-                    <input type="submit" value="Edit" onClick={updatePost} />
-                    <input type="submit" value="Cancel" onClick={cancelSubmit} />
+                    <div className='form-buttons'>
+                        <input type="submit" value="Done" onClick={updatePost} />
+                        <input type="submit" value="Cancel" onClick={cancelSubmit} />
+                    </div>
+
                 </form>
-            </div>
-            <div className="pokemon-dashboard-list">
-                <PokemonList list={filteredPokemonData} parent={'CreatePost'} setPost={setPost} post={post} />
             </div>
         </div>
     )
