@@ -4,7 +4,7 @@ import './PokemonCard.css';
 import { Link } from 'react-router-dom';
 import more from '../assets/more.png';
 
-const PokemonCard = ({ name, url, role }) => {
+const PokemonCard = ({ name, url, role, deletePokemon }) => {
   const [pokemonDetails, setPokemonDetails] = useState(null);
   const [isHovering, setIsHovering] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -105,7 +105,10 @@ const PokemonCard = ({ name, url, role }) => {
             <Link to={`/pokemon/edit/${pokemonDetails.id}`} className='card-link'>
               <li onClick={() => console.log('Edit')}>Edit</li>
             </Link>
-            <li className='delete-context-menu-item' onClick={() => console.log('Delete')}>Delete</li>
+            <li className='delete-context-menu-item' onClick={() => {
+              console.log('Delete');
+              deletePokemon();
+            }}>Delete</li>
           </ul>
         </div>
       )}

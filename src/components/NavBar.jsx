@@ -5,17 +5,26 @@ import Header from './Header-Left';
 import add from '../assets/add.svg';
 import home from '../assets/home.svg';
 import settings from '../assets/about.svg';
+import { NavLink } from 'react-router-dom';
+
 
 
 const NavBar = React.memo(() => {
     return (
         <div className="nav-bar">
             <Header />
-            <Link to="/" className="nav-button"> <img src={home} alt="home page" /> Home</Link>
-            <Link to="/Create" className="nav-button"><img src={settings} alt="add new character page" /> Settings</Link>
-            <Link to="/about" className="nav-button"><img src={add} alt="add new character page" /> Create</Link>
+            <NavLink exact to="/" activeClassName="active" className="nav-button">
+                <img src={home} alt="home page" /> Home
+            </NavLink>
+            <NavLink to="/about" activeClassName="active" className="nav-button">
+                <img src={settings} alt="settings page" /> Settings
+            </NavLink>
+            <NavLink to="/create" activeClassName="active" className="nav-button">
+                <img src={add} alt="create new character page" /> Create
+            </NavLink>
         </div>
     );
 });
+
 
 export default NavBar;

@@ -9,6 +9,8 @@ import './index.css';
 import DetailView from './routes/DetailView';
 import Chart from 'chart.js/auto';
 import centerTextPlugin from './plugins/centerTextPlugin'; // Import the custom plugin
+import CreatePost from './components/CreatePost';
+import EditPost from './components/EditPost';
 
 // If you're also using the datalabels plugin, ensure it is registered as well
 Chart.register(centerTextPlugin); // Register the plugin here
@@ -21,6 +23,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route index={true} element={<App />} />
           <Route path="/about" element={<About />} />
           <Route path="/pokemon/:id" element={<DetailView />} />
+          <Route path="/pokemon/edit/:id" element={<DetailView />} />
+          <Route path="/create" element={<CreatePost />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

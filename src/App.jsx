@@ -64,6 +64,7 @@ const App = () => {
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
+    console.log('filteredByType:', filteredByType);
     return filteredByType;
   };
 
@@ -173,7 +174,8 @@ const App = () => {
                   setActiveButton('all');
                   console.log('All button clicked');
                 }}>All</button>
-            </div>
+              </div>
+              {console.log('maamawo:', filteredPokemonData)}
             <PokemonList list={filteredPokemonData} />
           </div>
         </div>

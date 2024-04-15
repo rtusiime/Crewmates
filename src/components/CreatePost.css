@@ -1,0 +1,76 @@
+.create-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    max-width: 500px; /* Set maximum width to avoid overly wide form */
+    margin: 0 auto; /* Center the container on the page */
+    padding: 20px; /* Add some padding around the whole form */
+}
+
+.create-form {
+    width: 100%; /* Ensure the form takes up the entire width of its container */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.create-page h1 {
+    margin-bottom: 30px; /* Add some space below the header */
+    font-family: 'Pokemon Solid', sans-serif;
+    font-size: 2.5rem; /* Adjust font size for better readability and scale */
+    color: #363b81;
+    text-align: center; /* Center the title text */
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Consistent margin for all input groups */
+    background-color: #f8f9fa;
+    padding: 20px; /* Increase padding for more touch-friendly inputs */
+    border-radius: 20px; /* Apply border-radius for soft edges */
+}
+
+.form-input label {
+    margin-bottom: 8px; /* Space out the label from the input */
+    font-weight: bold; /* Make labels stand out */
+}
+
+.form-input input,
+.form-input select {
+    border: 1px solid #ced4da; /* Add a border to input and select for definition */
+    border-radius: 5px; /* Round corners slightly for aesthetics */
+    padding: 10px 15px; /* Add padding for comfortable interaction */
+    font-size: 1rem; /* Readable default font size */
+    background-color: #fff; /* Ensure background is solid white to stand out from the form background */
+}
+
+.form-input input:focus,
+.form-input select:focus {
+    outline: none;
+    border-color: #646cff; /* Highlight focus with a color change */
+    box-shadow: 0 0 0 3px rgba(100, 108, 255, 0.25); /* Add a box-shadow to emphasize focus */
+}
+
+input[type=submit] {
+    border: none;
+    border-radius: 10px; /* Slightly round the corners for the button */
+    padding: 15px 20px; /* Add padding to increase button size and meet touch-target guidelines */
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #1a1a1a;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.25s, transform 0.25s; /* Smooth transition for color and button press */
+    margin-top: 10px; /* Add margin above the submit button */
+}
+
+input[type=submit]:hover,
+input[type=submit]:focus {
+    background-color: #646cff; /* Change button color on hover/focus */
+    transform: translateY(-2px); /* Slightly lift the button when interacted with for a tactile feel */
+}
+
+input[type=submit]:active {
+    transform: translateY(1px); /* Depress button on click */
+}

@@ -45,3 +45,9 @@
     height: 30px;
     margin-right: 10px;
 }
+
+.active {
+    background-color: white; /* A different color to highlight active link */
+    color: #5db9ff; /* Change the text color if needed */
+    font-weight: 700; /* Make the font bolder */
+}
