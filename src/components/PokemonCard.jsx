@@ -94,7 +94,7 @@ const PokemonCard = ({ name, url, role, deletePokemon, parent, setPost, post }) 
       onMouseLeave={handleMouseLeave}
       onClick={parent === 'CreatePost' ? handleCardClick : null}
       style={getCardStyle()}>
-      <Link to={`/pokemon/${pokemonDetails.name}`} state={role} className='card-link'>
+      <Link to={`/pokemon/${pokemonDetails.name}`} state={{role, url} } className='card-link'>
         <img
           className="sprite"
           src={pokemonDetails.sprites.front_default}
