@@ -1,8 +1,8 @@
 import './EditPost.css'
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useHistory } from 'react';
 import supabase from '../client';
-import { useLocation, useParams } from "react-router-dom";
-const roles = ["Strategist", "Attacker", "Defender"];
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+const roles = ["strategist", "attacker", "defender"];
 import axios from 'axios';
 
 const EditPost = () => {
@@ -14,6 +14,7 @@ const EditPost = () => {
     const url = location.state.url;
     const [post, setPost] = useState({ name: name, role: role });
     const [imageUrl, setImageUrl] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPokemonOfficialArtwork = async (url) => {
@@ -50,13 +51,17 @@ const EditPost = () => {
 
         } else {
             console.log('Post created successfully:', data);
-            window.location = '/'; // Redirect if needed
         }
+        navigate('/');
     }
 
     const cancelSubmit = (event) => {
-        window.location = '/';
+        navigate('/');
     };
+
+
+
+    
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -68,7 +73,7 @@ const EditPost = () => {
     };
 
     return (
-        <div className='create-page'>
+        <div className='edit-page'>
             <h1>Update your character</h1>
             <h2>{name}</h2>
             <img src={imageUrl} alt={`picture of ${name}`} />

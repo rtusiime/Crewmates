@@ -1,9 +1,9 @@
-.pokemon-card {
+/* .pokemon-card {
     background: white;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 300px; /* Adjust the width as necessary */
+    width: 300px;
     margin: 20px auto;
     position: relative;
     padding: 1rem;
@@ -32,8 +32,8 @@
   }
   
   .character-img img {
-    width: 80%; /* Adjust the size to fit your design */
-    margin-top: 3rem; /* Make room for the title row */
+    width: 80%; 
+    margin-top: 3rem; 
   }
   
   .character-description {
@@ -50,33 +50,143 @@
     color: #999;
   }
   
-  /* Stats bar styles */
-  .stat {
-    display: flex;
+
+
+ 
+  }
+***/
+
+
+  .pokemon-detail-container{
+    display: flexbox;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 0.5rem;
+    /* height: 100vh;*/
+    width: 100%; 
+    margin-left: 20%;
+    background-color: pink;
   }
+
+  .detail-image{
   
-  .stat-label {
-    font-size: 0.875rem;
+  }
+
+  .detail-dashboard{
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    width: max-content;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .detail-dashboard-left {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    width: max-content;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .pokemon-title{
+    font-family: 'Pokemon Solid', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
     color: #333;
-    width: 30%; /* Adjust the width as needed */
-    text-align: left;
   }
-  
-  .stat-bar {
-    width: 70%; /* Adjust the width as needed */
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    height: 10px;
-    flex-grow: 1;
-    margin-left: 0.5rem;
+
+  .detail-dashboard-right {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    width: max-content;
+    padding: 20px;
+    border-radius: 20px;
   }
-  
-  .stat-fill {
-    background-color: #3b4cca; /* Adjust color based on type */
-    width: 50%; /* This will be dynamic based on the stat value */
-    height: 100%;
+
+  .pokemon-id{
+    font-size: 1rem;
+    color: #666;
   }
-  
+
+.pokemon-role{
+  display: inline-block;
+  /* Inline-block for line-like layout */
+  padding: 2px 6px 5px;
+  margin: 0 4px;
+  border: 1px solid #ddd;
+  /* Border color as per your design */
+  border-radius: 4px;
+  /* Rounded corners for type tags */
+  /* Light background for type tags */
+  color: white;
+  /* Text color for types */
+  font-size: 0.75rem;
+  /* Smaller font size for type tags */
+  background-color: black;
+}
+
+.pokemon-height {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: green;
+}
+
+.pokemon-weight {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: blue;
+}
+
+.pokemon-key-attributes{
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pokemon-dashboard-right {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  width: max-content;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.pokemon-bio{
+  display: flex;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #333;
+  width: 30%; 
+  text-align: left;
+}
+
+.stat-bar {
+  width: 70%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 10px;
+  flex-grow: 1;
+  margin-left: 0.5rem;
+}
+
+.stat-fill {
+  background-color: #3b4cca;
+  width: 50%; 
+  height: 100%;
+}

@@ -68,8 +68,12 @@ input[type=submit]:hover {
     margin: 10px;
 }
 
-.create-page h2{
+.edit-page h2{
 font-family: 'Pokemon Classic', Courier, monospace;
 font-size: 2em;
 font-weight: 900;
+}
+
+.edit-page img {
+    height: 350px;
 }

@@ -4,14 +4,17 @@ import axios from 'axios';
 import PokemonList from './PokemonList';
 import SearchContext from '../context/SearchContext';
 import supabase from '../client';
+import { useNavigate } from 'react-router-dom';
+
 const roles = [ "strategist", "defender", "attacker",];
 
 const CreatePost = () => {
 
-    const [post, setPost] = useState({ name: "", role: "Guardian", url: ""});
+    const [post, setPost] = useState({ name: "", role: "strategist", url: ""});
     const [pokemons, setPokemons] = useState([]);
     const { searchTerm } = useContext(SearchContext); // Use the context
     const [filteredPokemonData, setFilteredPokemonData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPokemons = async () => {
@@ -69,7 +72,7 @@ const CreatePost = () => {
             console.error('Error inserting new Pokémon:', error_2);
         } else {
             console.log('Post created successfully:', data);
-            window.location = '/'; // Redirect if needed
+            navigate('/'); // Redirect if needed
         }
     };
     

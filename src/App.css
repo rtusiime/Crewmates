@@ -2,8 +2,8 @@
 #root {
   max-width: 1280px;
   margin: auto;
-  margin-right: 20%;
   padding: 2rem;
+  margin-right: 20%;
   text-align: center;
   background-color: rgb(225, 234, 241);
   /* Ensures consistent app background */
@@ -13,10 +13,10 @@
   display: flex;
   padding: 20px;
   background-color: rgb(225, 234, 241);
+  margin-left: 20%;
 }
 
 .App main {
-  margin-left: 260px;
   padding: 20px;
   background-color: rgb(225, 234, 241);
 }
@@ -54,9 +54,6 @@ span {
   flex-direction: column;
 }
 
-.dashboard {
-
-}
 
 /* Interactive elements */
 a,

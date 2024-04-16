@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import './PokemonDetail.css';
 
 const PokemonDetail = () => {
   const { name } = useParams();
+  const { state } = useLocation();
+  console.log('State:', state);
   const [pokemonData, setPokemonData] = useState(null);
+  const [pokemonBio, setPokemonBio] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPokemonData = async () => {
@@ -17,53 +21,121 @@ const PokemonDetail = () => {
       }
     };
 
-    if (id) {
-      fetchPokemonData();
+    const fetchPokemonBio = async () => {
+      try {
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${name}`);
+        setPokemonBio(response.data);
+        console.log('Pokemon Bio:', response.data);
+      } catch (error) {
+        console.error('Error fetching Pokemon bio:', error);
+      }
+    };
+
+
+    if (name) {
+      fetchPokemonData().then(() => fetchPokemonBio());
     }
-  }, [id]);
+  }, [name]);
 
   if (!pokemonData) {
     return <p>Loading pokemon details...</p>;
   }
 
-  const getMainType = () => {
-    return pokemonData.types[0].type.name;
+
+  const typeColorMapping = {
+    'fairy': '#EE99AC',
+    'dragon': '#7038F8',
+    'bug': '#A8B820',
+    'psychic': '#F85888',
+    'flying': '#A890F0',
+    'ground': '#E0C068',
+    'poison': '#A040A0',
+    'fight': '#C03028',
+    'ice': '#98D8D8',
+    'grass': '#78C850',
+    'electric': '#F8D030',
+    'water': '#6890F0',
+    'fire': '#F08030',
+    'normal': '#A8A878',
+    'steel': '#B8B8D0',
+    'ghost': '#705898',
+    'dark': '#705848',
+    'rock': '#B8A038',
+  };
+
+  const roleColors = {
+    attacker: '#ff1f1f',   // Red
+    defender: '#fbd743',   // Yellow
+    strategist: '#5db9ff'  // Blue
   };
 
   return (
-    <div className="pokemon-card">
-      <section className="title-row">
-        <p className="rarity">Basic Pokémon</p>
-        <h1 className="name">{pokemonData.name}</h1>
-        <p className="health">{pokemonData.stats.find(stat => stat.stat.name === 'hp').base_stat} HP</p>
-      </section>
 
-      <section className="character-img">
+    <div className='pokemon-detail-container'>
+            {parent !== 'CreatePost' && <img className="moreButton" alt="edit button" src={more} onClick={handleMoreClick} />}
+      {/* Conditional rendering of the context menu */}
+      {showMenu && (
+        <div className="context-menu">
+          <ul>
+            <Link to={`/edit/${pokemonDetails.name}`} state={{role, url} } className='card-link'>
+              <li onClick={() => console.log('Edit')}>Edit</li>
+            </Link>
+            <li className='delete-context-menu-item' onClick={() => {
+              console.log('Delete');
+              deletePokemon();
+            }}>Delete</li>
+          </ul>
+        </div>
+      )}
+      <span className='pokemon-role' style={{ backgroundColor: roleColors[state] }}>
+        {state}
+      </span>
+      <div className='detail-image'>
         <img
           src={pokemonData.sprites.other['official-artwork'].front_default}
           alt={pokemonData.name}
         />
-      </section>
-
-      <section className="character-stats">
-        {pokemonData.stats.map((statInfo) => (
-          <div className="stat" key={statInfo.stat.name}>
-            <div className="stat-label">{statInfo.stat.name}</div>
-            <div className="stat-bar">
-              <div className="stat-fill" style={{ width: `${statInfo.base_stat}%` }}></div>
+      </div>
+      <div className='detail-dashboard'>
+        <div className='detail-dashboard-left'>
+          <span className='pokemon-title'>
+            <h1>{pokemonData.name}</h1>
+            <div className='pokemon-id'>#{pokemonData.id}</div>
+          </span>
+          <div className="pokemon-types">
+            {pokemonData.types.map((typeInfo, index) => (
+              <span key={index} className="pokemon-type" style={{ background: typeColorMapping[typeInfo.type.name.toLowerCase()] }}>
+                {typeInfo.type.name}
+              </span>
+            ))}
+          </div>
+          <div className='pokemon-key-attributes'>
+            <div className='pokemon-height'>
+              {pokemonData.height}
+            </div>
+            <div className='pokemon-weight'>
+              {pokemonData.weight}
             </div>
           </div>
-        ))}
-      </section>
-
-      <section className="character-description">
-        <p>One of the original starters, {pokemonData.name} is loved by trainers all over the world for its bravery and loyalty.</p>
-      </section>
-
-      <section className="card-details">
-        <p className="collector-card-number">ID: {pokemonData.id}</p>
-      </section>
-    </div>
+        </div>
+        <div className='detail-dashboard-right'>
+          <div className='pokemon-bio'>
+            <p>
+              {pokemonBio.flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text}
+            </p>
+          </div>
+          <section className="pokemon-stats">   {pokemonData.stats.map((statInfo) => (
+            <div className="stat" key={statInfo.stat.name}>
+              <div className="stat-label">{statInfo.stat.name}</div>
+              <div className="stat-bar">
+                <div className="stat-fill" style={{ width: `${statInfo.base_stat}%` }}></div>
+              </div>
+            </div>
+          ))}
+          </section>
+        </div>
+      </div>
+    </div >
   );
 };
 
